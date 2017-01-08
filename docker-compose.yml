@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: osticket-mysql
+    hostname: mysql
+    ports:
+        - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=osticket
+      - MYSQL_USER=osticket
+      - MYSQL_PASSWORD=secret
+  
+  osticket:
+    image: filug/docker-osticket
+    container_name: osticket
+    hostname: osticket
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    ports:
+      - "3003:80"
+
